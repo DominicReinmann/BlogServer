@@ -1,0 +1,91 @@
+﻿-- Create Database Blog
+CREATE DATABASE Blog;
+GO
+
+
+-- Create Configuration Table 
+USE [Blog]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Configuration](
+    [Id] [int] IDENTITY(1,1) NOT NULL, 
+    [Section] [nvarchar](50) COLLATE Latin1_General_CI_AS NULL, 
+    [Key] [nvarchar](50) COLLATE Latin1_General_CI_AS NULL, 
+    [Value] [nvarchar](255) COLLATE Latin1_General_CI_AS NULL, 
+ CONSTRAINT [PK_Configuration] PRIMARY KEY CLUSTERED 
+(
+    [Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+-- Create User Table
+USE [Blog]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [nvarchar](50) COLLATE Latin1_General_CI_AS NULL, 
+	[Password] [nvarchar](255) COLLATE Latin1_General_CI_AS NULL, 
+	[Email] [nvarchar](255) COLLATE Latin1_General_CI_AS NULL, 
+	[Role] [nvarchar](50) COLLATE Latin1_General_CI_AS NULL, 
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+-- Create Post Table
+USE [Blog]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Posts](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](255) COLLATE Latin1_General_CI_AS NULL, 
+	[Content] [nvarchar](max) COLLATE Latin1_General_CI_AS NULL, 
+	[Tags] [nvarchar](50) COLLATE Latin1_General_CI_AS NULL, 
+	[DateCreated] [datetime] NULL,
+	[Author] [int] NULL
+ CONSTRAINT [PK_Posts] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Posts] ADD CONSTRAINT [FK_Posts_User] FOREIGN KEY ([Author]) REFERENCES [dbo].[User] ([Id]);
+GO
+
+
+-- Create Comment Table
+USE [Blog]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Comments](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PostId] [int] NULL,
+	[AuthorName] [nvarchar](100) COLLATE Latin1_General_CI_AS NULL, 
+	[Content] [nvarchar](max) COLLATE Latin1_General_CI_AS NULL, 
+	[DateCreated] [datetime] NULL
+ CONSTRAINT [PK_Comments] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Comments] ADD CONSTRAINT [FK_Comments_Posts] FOREIGN KEY ([PostId]) REFERENCES [dbo].[Posts] ([Id]);
+GO
