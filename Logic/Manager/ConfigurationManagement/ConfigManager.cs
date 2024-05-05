@@ -1,5 +1,4 @@
-﻿using BlogServer.CrossCutting.Logger;
-using BlogServer.CrossCutting.Models.Domain;
+﻿using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Database;
 using System.Diagnostics.CodeAnalysis;
 
@@ -8,12 +7,10 @@ namespace BlogServer.Logic.Manager.ConfigurationManagement
     public class ConfigManager : IConfigManager
     {
         private readonly DbManager<Configuration> _configManager;
-        private readonly ILog _log;
 
-        public ConfigManager(DbConntent context, ILog log)
+        public ConfigManager(DbConntent context)
         {
             _configManager = new DbManager<Configuration>(context);
-            _log = log;
         }
 
         public IQueryable<Configuration> GetAll()
@@ -26,16 +23,16 @@ namespace BlogServer.Logic.Manager.ConfigurationManagement
             catch (Exception ex)
             {
 
-                _log.ErrorLog($"Error getting Configuration {ex.InnerException.Message}");
+                Console.WriteLine($"Error getting Configuration {ex.InnerException.Message}");
                 return null;
             }
         }
-        public T? GetConfiguration<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(string section, string key, T type)
+        public T? GetConfigurationValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(string section, string key, T type)
         {
             var result = _configManager.GetAll().Where(x => x.Section == section && x.Key == key);
             if (result == null || !result.Any() || result.Count() > 1)
             {
-                _log.ErrorLog("Beim Laden aus der " + section + " Config " + key + " ist ein Fehler aufgetreten.");
+                Console.WriteLine("Beim Laden aus der " + section + " Config " + key + " ist ein Fehler aufgetreten.");
                 throw new NullReferenceException("Beim Laden aus der " + section + " Config " + key + " ist ein Fehler aufgetreten.");
             }
             else

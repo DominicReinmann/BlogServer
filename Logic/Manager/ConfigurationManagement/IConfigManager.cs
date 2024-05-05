@@ -6,6 +6,6 @@ namespace BlogServer.Logic.Manager.ConfigurationManagement
     public interface IConfigManager
     {
         IQueryable<Configuration> GetAll();
-        T? GetConfiguration<[DynamicallyAccessedMembers((DynamicallyAccessedMemberTypes)(-1))] T>(string section, string key, T type);
+        T? GetConfigurationValue<[DynamicallyAccessedMembers((DynamicallyAccessedMemberTypes)(-1))] T>(string section, string key, T type);
     }
 }

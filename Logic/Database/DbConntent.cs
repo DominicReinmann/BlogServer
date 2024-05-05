@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Text;
+﻿using BlogServer.CrossCutting.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogServer.Logic.Database
 {
@@ -24,6 +24,9 @@ namespace BlogServer.Logic.Database
         }
        
         // db sets go here 
-
+        public DbSet<Configuration> Configuration { get; set; }
+        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Posts> Posts { get; set; }
+        public DbSet<User> User {  get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using BlogServer.CrossCutting.Logger;
+using BlogServer.Logic.Database;
 using BlogServer.Logic.Manager.ConfigurationManagement;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogServer.StartUp
 {
@@ -18,6 +20,11 @@ namespace BlogServer.StartUp
             
             // Configuration
             _builder.Services.AddTransient<IConfigManager, ConfigManager>();
+
+            // DB 
+            _builder.Services.AddDbContext<DbConntent>(options =>
+                options.UseSqlServer(_builder.Configuration.GetConnectionString("DefaultConnection")),
+                ServiceLifetime.Scoped);
         }
     }
 }

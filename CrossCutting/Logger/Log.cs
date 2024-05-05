@@ -1,13 +1,17 @@
-﻿namespace BlogServer.CrossCutting.Logger
+﻿using BlogServer.Logic.Manager.ConfigurationManagement;
+
+namespace BlogServer.CrossCutting.Logger
 {
     public class Log : ILog
     {
-
+        private readonly IConfigManager _config;
         private string _logPath;
         private string _logFile;
 
-        public Log()
+        public Log(IConfigManager config)
         {
+            _config = config;
+            _logPath = _config.GetConfigurationValue("Logging", "LogPath", string.Empty);
             string currentDate = DateTime.Now.ToString("yyy.MM.dd");
             _logFile = $"{currentDate}.log";
             CreateDirecotryIfNotExists();
