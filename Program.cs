@@ -1,3 +1,4 @@
+using BlogServer.Authentication;
 using BlogServer.StartUp;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,9 @@ builder.Services.AddControllers();
 var inject = new DependencyInjection(builder);
 inject.Inject();
 
+// Auth 
+var auth = new JwtAuthentication(builder);
+auth.Authenticate();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,4 +1,5 @@
-﻿using BlogServer.CrossCutting.Logger;
+﻿using BlogServer.Authentication;
+using BlogServer.CrossCutting.Logger;
 using BlogServer.CrossCutting.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace BlogServer.Controllers
     public class UserController : Controller
     {
         private readonly ILog _log;
+        private readonly IJwtTokenGenerator _tokenGenerator;
 
-        public UserController(ILog log)
+        public UserController(ILog log, IJwtTokenGenerator generator)
         {
             _log = log;
+            _tokenGenerator = generator;
         }
 
         [HttpGet]
@@ -21,7 +24,14 @@ namespace BlogServer.Controllers
         {
             try
             {
-                return Ok();
+                if(username == "dore" && password == "HalloDu123")
+                {
+                    return Ok(_tokenGenerator.GenerateToken());
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized);
+                }
             }
             catch (Exception ex)
             {
