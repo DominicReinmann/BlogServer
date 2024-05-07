@@ -18,7 +18,14 @@ namespace BlogServer.Logic.Workflows.PostWorkflows
 
         public void RunGetPost()
         {
-
+            try
+            {
+                _manager.GetAll();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorLog($"Error getting Post {ex.Message}");
+            }
         }
 
         public void RunSavePost(string post)
