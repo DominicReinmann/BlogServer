@@ -1,5 +1,4 @@
 ﻿using BlogServer.CrossCutting.Logger;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogServer.Controllers
@@ -30,6 +29,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpPost]
+        []
         public IActionResult Post()
         {
             _log.DebugLog("Test log post");

@@ -1,6 +1,7 @@
 ﻿using BlogServer.Authentication;
 using BlogServer.CrossCutting.Logger;
 using BlogServer.CrossCutting.Models.Domain;
+using BlogServer.Logic.Workflows.LoginWorkflows;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +13,13 @@ namespace BlogServer.Controllers
     {
         private readonly ILog _log;
         private readonly IJwtTokenGenerator _tokenGenerator;
+        private readonly ILoginWorkflow _loginWorkflow;
 
-        public UserController(ILog log, IJwtTokenGenerator generator)
+        public UserController(ILog log, IJwtTokenGenerator generator, ILoginWorkflow loginWorkflow)
         {
             _log = log;
             _tokenGenerator = generator;
+            _loginWorkflow = loginWorkflow;
         }
 
         [HttpGet]
@@ -24,14 +27,15 @@ namespace BlogServer.Controllers
         {
             try
             {
-                if(username == "dore" && password == "HalloDu123")
+                if(_loginWorkflow.RunLoginUser(password, username))
                 {
-                    return Ok(_tokenGenerator.GenerateToken());
+                    return StatusCode(StatusCodes.Status200OK);
                 }
                 else
                 {
                     return StatusCode(StatusCodes.Status401Unauthorized);
                 }
+
             }
             catch (Exception ex)
             {
@@ -43,10 +47,16 @@ namespace BlogServer.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult User(User user)
+        public IActionResult User([FromBody] User user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
+                _loginWorkflow.RunRegisterUser(user);
                 return Ok();
             }
             catch (Exception ex)

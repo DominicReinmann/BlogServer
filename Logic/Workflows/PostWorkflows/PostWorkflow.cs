@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace BlogServer.Logic.Workflows.PostWorkflows
 {
-    public class PostWorkflow
+    public class PostWorkflow : IPostWorkflow
     {
         private readonly ILog _log;
         private readonly IPostManager _manager;
@@ -16,15 +16,16 @@ namespace BlogServer.Logic.Workflows.PostWorkflows
             _manager = manager;
         }
 
-        public void RunGetPost()
+        public List<Posts> RunGetPost(int id)
         {
             try
             {
-                _manager.GetAll();
+                return _manager.GetPostsWithComments(id).ToList();
             }
             catch (Exception ex)
             {
                 _log.ErrorLog($"Error getting Post {ex.Message}");
+                return new List<Posts>();
             }
         }
 
@@ -40,9 +41,28 @@ namespace BlogServer.Logic.Workflows.PostWorkflows
             }
         }
 
-        public void RunEditPost()
+        public void RunEditPost(Posts post)
         {
+            try
+            {
+                _manager.UpdatePost(post);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorLog($"Error updating Post {ex.Message}");
+            }
+        }
 
+        public void RunDeletePost(Posts post)
+        {
+            try
+            {
+                _manager.DeletePost(post);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorLog($"Error deleting Post {ex.Message}");
+            }
         }
     }
 }

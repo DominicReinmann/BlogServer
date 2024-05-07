@@ -1,4 +1,5 @@
 ﻿using BlogServer.CrossCutting.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogServer.Logic.Manager.PostManagement
 {
@@ -29,6 +30,13 @@ namespace BlogServer.Logic.Manager.PostManagement
         public IQueryable<Posts> GetAll()
         {
             return _postManager.GetAll();
+        }
+
+        public IQueryable<Posts> GetPostsWithComments(int id)
+        {
+            return _postManager.GetAll()
+                .Where(p => p.Id == id)
+                .Include(p => p.Comments);
         }
     }
 }

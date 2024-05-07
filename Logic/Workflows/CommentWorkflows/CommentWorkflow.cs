@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace BlogServer.Logic.Workflows.CommentWorkflows
 {
-    public class CommentWorkflow
+    public class CommentWorkflow : ICommentWorkflow
     {
         private readonly ILog _log;
         private readonly ICommentManager _manager;
@@ -28,14 +28,28 @@ namespace BlogServer.Logic.Workflows.CommentWorkflows
             }
         }
 
-        public void RunEditComment()
+        public void RunEditComment(Comments comment)
         {
-
+            try
+            {
+                _manager.UpdateComment(comment);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorLog($"Error updating comment {ex.Message}");
+            }
         }
 
-        public void RunDeleteComment()
+        public void RunDeleteComment(Comments comment)
         {
-
+            try
+            {
+                _manager.DeleteComment(comment);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorLog($"Error deleting comment {ex.Message}");
+            }
         }
     }
 }

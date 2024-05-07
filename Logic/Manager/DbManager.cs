@@ -1,5 +1,6 @@
 ﻿using BlogServer.Logic.Database;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace BlogServer.Logic.Manager
 {
@@ -39,5 +40,16 @@ namespace BlogServer.Logic.Manager
         {
             return _entities.AsQueryable().AsNoTracking();
         }
+
+        public IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> query = _context.Set<TEntity>();
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return query;
+        }
+
     }
 }

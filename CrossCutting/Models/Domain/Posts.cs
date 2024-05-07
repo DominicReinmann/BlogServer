@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BlogServer.CrossCutting.Models.Domain
 {
@@ -21,5 +22,9 @@ namespace BlogServer.CrossCutting.Models.Domain
 
         [JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
+
+        [NotMapped]
+        [JsonPropertyName("comments")]
+        public List<Comments> Comments { get; set; }
     }
 }
