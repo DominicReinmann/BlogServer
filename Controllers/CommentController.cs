@@ -3,7 +3,7 @@
 namespace BlogServer.Controllers
 {
     [ApiController]
-    [Route("/api/[controler]")]
+    [Route("/api/[controller]")]
     public class CommentController : Controller
     {
 

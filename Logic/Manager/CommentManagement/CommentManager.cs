@@ -1,4 +1,6 @@
 ﻿using BlogServer.CrossCutting.Models.Domain;
+using BlogServer.Logic.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogServer.Logic.Manager.CommentManagement
 {
@@ -6,9 +8,9 @@ namespace BlogServer.Logic.Manager.CommentManagement
     {
         private readonly DbManager<Comments> _commentManager;
 
-        public CommentManager(DbManager<Comments> commentManager)
+        public CommentManager(DbConntent context)
         {
-            _commentManager = commentManager;
+            _commentManager = new DbManager<Comments>(context);
         }
 
         public void AddComment(Comments comment)

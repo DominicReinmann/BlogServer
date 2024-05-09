@@ -1,4 +1,5 @@
 ﻿using BlogServer.CrossCutting.Models.Domain;
+using BlogServer.Logic.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogServer.Logic.Manager.PostManagement
@@ -7,9 +8,9 @@ namespace BlogServer.Logic.Manager.PostManagement
     {
         private readonly DbManager<Posts> _postManager;
 
-        public PostManager(DbManager<Posts> postManager)
+        public PostManager(DbConntent context)
         {
-            _postManager = postManager;
+            _postManager = new DbManager<Posts>(context);
         }
 
         public void AddPost(Posts post)

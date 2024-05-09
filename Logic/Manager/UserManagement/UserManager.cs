@@ -1,4 +1,5 @@
 ﻿using BlogServer.CrossCutting.Models.Domain;
+using BlogServer.Logic.Database;
 
 namespace BlogServer.Logic.Manager.UserManagement
 {
@@ -6,9 +7,9 @@ namespace BlogServer.Logic.Manager.UserManagement
     {
         private readonly DbManager<User> _userManager;
 
-        public UserManager(DbManager<User> userManager)
+        public UserManager(DbConntent context )
         {
-            _userManager = userManager;
+            _userManager = new DbManager<User>(context);
         }
 
         public void AddUser(User user)

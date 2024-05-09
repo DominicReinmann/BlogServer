@@ -29,7 +29,6 @@ namespace BlogServer.Controllers
         }
 
         [HttpPost]
-        []
         public IActionResult Post()
         {
             _log.DebugLog("Test log post");

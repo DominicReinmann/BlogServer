@@ -1,7 +1,14 @@
 ﻿using BlogServer.Authentication;
 using BlogServer.CrossCutting.Logger;
 using BlogServer.Logic.Database;
+using BlogServer.Logic.Encryption;
+using BlogServer.Logic.Manager.CommentManagement;
 using BlogServer.Logic.Manager.ConfigurationManagement;
+using BlogServer.Logic.Manager.PostManagement;
+using BlogServer.Logic.Manager.UserManagement;
+using BlogServer.Logic.Workflows.CommentWorkflows;
+using BlogServer.Logic.Workflows.LoginWorkflows;
+using BlogServer.Logic.Workflows.PostWorkflows;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogServer.StartUp
@@ -18,6 +25,15 @@ namespace BlogServer.StartUp
         {
             // 
             _builder.Services.AddTransient<ILog, Log>();
+            _builder.Services.AddTransient<IEncryptionService, EncryptionService>();
+
+            // Workflows 
+            _builder.Services.AddTransient<ILoginWorkflow, LoginWorkflow>();
+            _builder.Services.AddTransient<IUserManager, UserManager>();
+            _builder.Services.AddTransient<ICommentWorkflow, CommentWorkflow>();
+            _builder.Services.AddTransient<ICommentManager, CommentManager>();
+            _builder.Services.AddTransient<IPostWorkflow, PostWorkflow>();
+            _builder.Services.AddTransient<IPostManager,  PostManager>();
             
             // Configuration
             _builder.Services.AddTransient<IConfigManager, ConfigManager>();

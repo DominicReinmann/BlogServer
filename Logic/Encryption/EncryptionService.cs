@@ -41,7 +41,7 @@ namespace BlogServer.Logic.Encryption
         {
             try
             {
-                _encryptionKey = Encoding.UTF8.GetBytes("thisIsSomeElaborateKeyIWroteMyself");
+                _encryptionKey = Encoding.UTF8.GetBytes("thjsoeufjsnksuef");
                 byte[] byteUserName = Encoding.UTF8.GetBytes(username);
                 return EncryptStringToBytes(pw, byteUserName, _encryptionKey).ToString();
             }
@@ -66,6 +66,9 @@ namespace BlogServer.Logic.Encryption
             {
                 throw new ArgumentNullException();
             }
+
+            _log.DebugLog(key.ToString());
+            _log.DebugLog(IV.ToString());
 
             byte[] encrypted;
 
@@ -96,7 +99,7 @@ namespace BlogServer.Logic.Encryption
             try
             {
                 byte[] byteUserName = Encoding.UTF8.GetBytes(username);
-                _encryptionKey = Encoding.UTF8.GetBytes("thisIsSomeElaborateKeyIWroteMyself");
+                _encryptionKey = Encoding.UTF8.GetBytes("");
                 var temp = EncryptStringToBytes(pw, byteUserName, _encryptionKey).ToString();
                 var dbPassword = _manager.GetAll().Where(x => x.Username == username).Select(x => x.Password).FirstOrDefault();
                 if (temp == dbPassword)
