@@ -19,102 +19,70 @@ namespace BlogServer.Logic.Encryption
             _manager = manager;
         }
 
-        public string Encryption(string pw, string username)
+        public string HashPassword(string pw)
         {
-            var doo = Fuu(pw, username);
-            return doo;
+            try
+            {
+                byte[] salt = GenerateSalt();
+                byte[] hashedPassword = HashStringToBytes(pw, salt);
+                string saltBase64 = Convert.ToBase64String(salt);
+                string hashedPasswordBase64 = Convert.ToBase64String(hashedPassword);
+                return $"{saltBase64}:{hashedPasswordBase64}";
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorLog($"Error hashing password: {ex.Message}");
+                return string.Empty;
+            }
         }
 
         public bool CheckPassword(string pw, string username)
         {
             try
             {
-                return CheckPasswordBool(pw, username);
-            }
-            catch (Exception ex)
-            {
-                _log.ErrorLog($"Error checking Password {ex.Message}");
-                return false;
-            }
-        }
-        private string Fuu(string pw, string username)
-        {
-            try
-            {
-                _encryptionKey = Encoding.UTF8.GetBytes("thjsoeufjsnksuef");
-                byte[] byteUserName = Encoding.UTF8.GetBytes(username);
-                return EncryptStringToBytes(pw, byteUserName, _encryptionKey).ToString();
-            }
-            catch (Exception ex)
-            {
-                _log.ErrorLog($"Error creating password {ex.Message}");
-                return string.Empty;
-            }
-        }
-
-        private byte[] EncryptStringToBytes(string pw, byte[] key, byte[] IV)
-        {
-            if (string.IsNullOrEmpty(pw))
-            {
-                throw new ArgumentNullException();
-            }
-            if (string.IsNullOrEmpty(key.ToString()))
-            {
-                throw new ArgumentNullException();
-            }
-            if (string.IsNullOrEmpty(IV.ToString()))
-            {
-                throw new ArgumentNullException();
-            }
-
-            _log.DebugLog(key.ToString());
-            _log.DebugLog(IV.ToString());
-
-            byte[] encrypted;
-
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = key;
-                aes.IV = IV;
-
-                ICryptoTransform encryptro = aes.CreateEncryptor(aes.Key, aes.IV);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptro, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter sw = new StreamWriter(cs))
-                        {
-                            sw.Write(pw);
-                        }
-                        encrypted = ms.ToArray();
-                    }
-                }
-            }
-            return encrypted;
-        }
-
-
-        private bool CheckPasswordBool(string pw, string username)
-        {
-            try
-            {
-                byte[] byteUserName = Encoding.UTF8.GetBytes(username);
-                _encryptionKey = Encoding.UTF8.GetBytes("");
-                var temp = EncryptStringToBytes(pw, byteUserName, _encryptionKey).ToString();
                 var dbPassword = _manager.GetAll().Where(x => x.Username == username).Select(x => x.Password).FirstOrDefault();
-                if (temp == dbPassword)
-                {
-                    return true;
-                }
-                else
+                if (string.IsNullOrEmpty(dbPassword))
                 {
                     return false;
                 }
+
+                string[] passwordParts = dbPassword.Split(':');
+                if (passwordParts.Length != 2)
+                {
+                    return false;
+                }
+
+                string saltBase64 = passwordParts[0];
+                string hashedPasswordBase64 = passwordParts[1];
+
+                byte[] salt = Convert.FromBase64String(saltBase64);
+                byte[] hashedPassword = HashStringToBytes(pw, salt);
+                string hashedPasswordBase64Check = Convert.ToBase64String(hashedPassword);
+
+                return hashedPasswordBase64 == hashedPasswordBase64Check;
             }
             catch (Exception ex)
             {
-                _log.ErrorLog(ex.Message);
+                _log.ErrorLog($"Error checking password: {ex.Message}");
                 return false;
+            }
+        }
+
+        private byte[] GenerateSalt()
+        {
+            byte[] salt = new byte[16];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+            return salt;
+        }
+
+        private byte[] HashStringToBytes(string pw, byte[] salt)
+        {
+            using (var pbkdf2 = new Rfc2898DeriveBytes(pw, salt, 10000))
+            {
+                return pbkdf2.GetBytes(32);
             }
         }
     }
