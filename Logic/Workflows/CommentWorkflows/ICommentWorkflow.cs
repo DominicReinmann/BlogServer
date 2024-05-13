@@ -4,8 +4,8 @@ namespace BlogServer.Logic.Workflows.CommentWorkflows
 {
     public interface ICommentWorkflow
     {
-        void RunDeleteComment(Comments comment);
+        void RunDeleteComment(int id);
         void RunEditComment(Comments comment);
-        void RunPostComment(string comment);
+        void RunPostComment(Comments comment);
     }
 }

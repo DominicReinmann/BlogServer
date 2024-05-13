@@ -29,11 +29,11 @@ namespace BlogServer.Logic.Workflows.PostWorkflows
             }
         }
 
-        public void RunSavePost(string post)
+        public void RunSavePost(Posts post)
         {
             try
             {
-                _manager.AddPost(JsonSerializer.Deserialize<Posts>(post));
+                _manager.AddPost(post);
             }
             catch (Exception ex)
             {

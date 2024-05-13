@@ -30,18 +30,17 @@ namespace BlogServer.Controllers
                 if(_loginWorkflow.RunLoginUser(password, username))
                 {
                     var token = _tokenGenerator.GenerateToken();
-                    return StatusCode(StatusCodes.Status200OK, token);
+                    return Ok(token);
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status401Unauthorized);
+                    return StatusCode(401);
                 }
-
             }
             catch (Exception ex)
             {
                 _log.ErrorLog(ex.Message);
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -52,7 +51,7 @@ namespace BlogServer.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return StatusCode(400);
             }
 
             try
@@ -63,7 +62,7 @@ namespace BlogServer.Controllers
             catch (Exception ex)
             {
                 _log.ErrorLog(ex.Message);
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
     }

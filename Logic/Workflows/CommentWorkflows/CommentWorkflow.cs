@@ -1,8 +1,6 @@
 ﻿using BlogServer.CrossCutting.Logger;
 using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Manager.CommentManagement;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace BlogServer.Logic.Workflows.CommentWorkflows
 {
@@ -16,11 +14,11 @@ namespace BlogServer.Logic.Workflows.CommentWorkflows
             _manager = manager;
         }
 
-        public void RunPostComment(string comment)
+        public void RunPostComment(Comments comment)
         {
             try
             {
-                _manager.AddComment(JsonSerializer.Deserialize<Comments>(comment));
+                _manager.AddComment(comment);
             }
             catch (Exception ex)
             {
@@ -40,11 +38,11 @@ namespace BlogServer.Logic.Workflows.CommentWorkflows
             }
         }
 
-        public void RunDeleteComment(Comments comment)
+        public void RunDeleteComment(int id)
         {
             try
             {
-                _manager.DeleteComment(comment);
+                _manager.DeleteById(id);
             }
             catch (Exception ex)
             {

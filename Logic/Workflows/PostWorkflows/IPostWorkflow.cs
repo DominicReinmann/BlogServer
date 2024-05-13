@@ -7,6 +7,6 @@ namespace BlogServer.Logic.Workflows.PostWorkflows
         void RunDeletePost(Posts post);
         void RunEditPost(Posts post);
         List<Posts> RunGetPost(int id);
-        void RunSavePost(string post);
+        void RunSavePost(Posts post);
     }
 }

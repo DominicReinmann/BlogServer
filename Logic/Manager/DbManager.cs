@@ -51,5 +51,9 @@ namespace BlogServer.Logic.Manager
             return query;
         }
 
+        public TEntity GetById(int id)
+        {
+            return _context.Find<TEntity>(id);
+        }
     }
 }

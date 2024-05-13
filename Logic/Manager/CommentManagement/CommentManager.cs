@@ -1,6 +1,5 @@
 ﻿using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlogServer.Logic.Manager.CommentManagement
 {
@@ -31,6 +30,12 @@ namespace BlogServer.Logic.Manager.CommentManagement
         public IQueryable<Comments> GetAll()
         {
             return _commentManager.GetAll();
+        }
+
+        public void DeleteById(int id)
+        {
+            var comment = _commentManager.GetById(id);
+            _commentManager.Delete(comment);
         }
     }
 }
