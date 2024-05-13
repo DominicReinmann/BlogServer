@@ -33,6 +33,19 @@ namespace BlogServer.Logic.Workflows.LoginWorkflows
             }
         }
 
+        public User GetUser(string username)
+        {
+            try
+            {
+              return  _manager.GetAll().Where(x => x.Username == username).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorLog($"Error getting user {ex.Message}");
+                return new User();
+            }
+        }
+
         public bool RunLoginUser(string pw, string username)
         {
             try

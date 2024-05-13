@@ -32,6 +32,12 @@ namespace BlogServer.Authentication
                          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey))
                      };
                  });
+
+            _builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("User", policy => policy.RequireRole("User"));
+            });
         }
     }
 }

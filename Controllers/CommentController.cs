@@ -1,6 +1,7 @@
 ﻿using BlogServer.CrossCutting.Logger;
 using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Workflows.CommentWorkflows;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogServer.Controllers
@@ -57,6 +58,8 @@ namespace BlogServer.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         public IActionResult DeleteComment(int id)
         {
             try

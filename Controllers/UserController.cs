@@ -4,6 +4,7 @@ using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Workflows.LoginWorkflows;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BlogServer.Controllers
 {
@@ -27,10 +28,15 @@ namespace BlogServer.Controllers
         {
             try
             {
-                if(_loginWorkflow.RunLoginUser(password, username))
+                if (_loginWorkflow.RunLoginUser(password, username))
                 {
-                    var token = _tokenGenerator.GenerateToken();
-                    return Ok(token);
+                    var user = _loginWorkflow.GetUser(username);
+                    if (string.IsNullOrEmpty(user.Username))
+                    {
+                        var token = _tokenGenerator.GenerateToken(user.Username, user.Role);
+                        return Ok(token);
+                    }
+                    return BadRequest("Error getting User");
                 }
                 else
                 {

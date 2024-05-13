@@ -1,6 +1,7 @@
 ﻿using BlogServer.CrossCutting.Logger;
 using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Workflows.PostWorkflows;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogServer.Controllers
@@ -34,6 +35,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpPatch]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit([FromBody] Posts post)
         {
             try
@@ -49,6 +51,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete([FromBody] Posts post)
         {
             try
@@ -64,6 +67,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult PostPost([FromBody] Posts post)
         {
             try
