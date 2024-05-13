@@ -24,7 +24,7 @@ namespace BlogServer.Logic.Workflows.LoginWorkflows
             try
             {
                 _log.DebugLog(JsonSerializer.Serialize(user));
-                user.Password = _encryptionService.Encryption(user.Password, user.Username);
+                user.Password = _encryptionService.Encryption(user.Password);
                 _manager.AddUser(user);
             }
             catch (Exception ex)

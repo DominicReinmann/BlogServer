@@ -19,7 +19,7 @@ namespace BlogServer.Logic.Encryption
             _manager = manager;
         }
 
-        public string HashPassword(string pw)
+        public string Encryption(string pw)
         {
             try
             {

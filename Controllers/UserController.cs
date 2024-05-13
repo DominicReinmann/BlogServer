@@ -29,7 +29,8 @@ namespace BlogServer.Controllers
             {
                 if(_loginWorkflow.RunLoginUser(password, username))
                 {
-                    return StatusCode(StatusCodes.Status200OK);
+                    var token = _tokenGenerator.GenerateToken();
+                    return StatusCode(StatusCodes.Status200OK, token);
                 }
                 else
                 {
