@@ -1,6 +1,7 @@
 ﻿using BlogServer.CrossCutting.Logger;
 using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Workflows.CommentWorkflows;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, User")]
         public IActionResult CreateComment([FromBody] Comments comment)
         {
             if (comment == null || string.IsNullOrEmpty(comment.Content))
@@ -39,6 +41,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, User")]
         public IActionResult UpdateComment(int id, [FromBody] Comments updatedComment)
         {
             if (updatedComment == null || id != updatedComment.Id)
@@ -58,8 +61,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult DeleteComment(int id)
         {
             try

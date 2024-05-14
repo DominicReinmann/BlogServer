@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.AspNetCore.Routing.Constraints;
+using System.Text.Json.Serialization;
 
 namespace BlogServer.CrossCutting.Models.Domain
 {
     public class Comments
     {
-        
         [JsonPropertyName("id")]
         public int Id { get; set; }
         
@@ -19,5 +19,8 @@ namespace BlogServer.CrossCutting.Models.Domain
         
         [JsonPropertyName("dateCreated")]
         public DateTime? DateCreated { get; set; }
+
+        [JsonPropertyName("changedAt")]
+        public DateTime? ChangedAt { get; set; }
     }
 }

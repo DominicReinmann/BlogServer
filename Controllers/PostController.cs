@@ -1,6 +1,7 @@
 ﻿using BlogServer.CrossCutting.Logger;
 using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Workflows.PostWorkflows;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,12 +9,12 @@ namespace BlogServer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BlogController : Controller
+    public class PostController : Controller
     {
         private readonly ILog _log;
         private readonly IPostWorkflow _workflow;
 
-        public BlogController(ILog log, IPostWorkflow workflow)
+        public PostController(ILog log, IPostWorkflow workflow)
         {
             _log = log;
             _workflow = workflow;
@@ -35,7 +36,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpPatch]
-        [Authorize(Roles = "Admin")]
+        [Authorize( AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme ,Roles = "Admin, User")]
         public IActionResult Edit([FromBody] Posts post)
         {
             try
@@ -51,7 +52,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, User")]
         public IActionResult Delete([FromBody] Posts post)
         {
             try
@@ -67,7 +68,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, User")]
         public IActionResult PostPost([FromBody] Posts post)
         {
             try

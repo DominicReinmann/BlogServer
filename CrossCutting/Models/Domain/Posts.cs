@@ -18,7 +18,7 @@ namespace BlogServer.CrossCutting.Models.Domain
         public string? Content { get; set; }
 
         [JsonPropertyName("tags")]
-        public string? Tags { get; set; }
+        public List<Tags>? Tags { get; set; }
 
         [JsonPropertyName("dateCreated")]
         public DateTime DateCreated { get; set; }
