@@ -2,7 +2,7 @@
 
 namespace BlogServer.CrossCutting.Models.Domain
 {
-    public class Tags
+    public class Tag
     {
         [JsonPropertyName("id")]
         public int? Id { get; set; }

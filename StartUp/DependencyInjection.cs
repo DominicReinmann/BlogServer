@@ -9,6 +9,7 @@ using BlogServer.Logic.Manager.UserManagement;
 using BlogServer.Logic.Workflows.CommentWorkflows;
 using BlogServer.Logic.Workflows.LoginWorkflows;
 using BlogServer.Logic.Workflows.PostWorkflows;
+using BlogServer.Logic.Workflows.TagWorkflows;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogServer.StartUp
@@ -23,24 +24,34 @@ namespace BlogServer.StartUp
 
         public void Inject()
         {
-            // 
+            // Div
             _builder.Services.AddTransient<ILog, Log>();
             _builder.Services.AddTransient<IEncryptionService, EncryptionService>();
 
-            // Workflows 
+            // Workflows
+            
+            // Login
             _builder.Services.AddTransient<ILoginWorkflow, LoginWorkflow>();
+            
+            // User
             _builder.Services.AddTransient<IUserManager, UserManager>();
+            
+            // Comment
             _builder.Services.AddTransient<ICommentWorkflow, CommentWorkflow>();
             _builder.Services.AddTransient<ICommentManager, CommentManager>();
+            
+            // Post
             _builder.Services.AddTransient<IPostWorkflow, PostWorkflow>();
             _builder.Services.AddTransient<IPostManager,  PostManager>();
             
+            // Tags
+            _builder.Services.AddTransient<ITagWorkflow, TagWorkflow>();
+
             // Configuration
             _builder.Services.AddTransient<IConfigManager, ConfigManager>();
 
             // Authentication 
             _builder.Services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
-
 
             // DB 
             _builder.Services.AddDbContext<DbConntent>(options =>
