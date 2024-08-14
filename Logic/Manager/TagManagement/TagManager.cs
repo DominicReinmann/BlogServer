@@ -12,7 +12,7 @@ namespace BlogServer.Logic.Manager.TagManagement
             _tagmanager = new DbManager<Tag>(context);
         }
 
-        public IQueryable GetAll()
+        public IQueryable<Tag> GetAll()
         {
             return _tagmanager.GetAll();
         }

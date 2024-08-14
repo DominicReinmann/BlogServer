@@ -6,7 +6,7 @@ namespace BlogServer.Logic.Manager.TagManagement
     {
         void AddTag(Tag tag);
         void DeleteTag(Tag tag);
-        IQueryable GetAll();
+        IQueryable<Tag> GetAll();
         void UpdateTag(Tag tag);
     }
 }

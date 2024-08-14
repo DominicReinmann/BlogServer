@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BlogServer.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class CommentController : Controller
     {
         private readonly ILog _log;

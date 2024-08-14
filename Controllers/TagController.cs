@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BlogServer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class TagController : Controller
     {
         private readonly ILog _log;
@@ -50,3 +50,4 @@ namespace BlogServer.Controllers
             }
         }
     }
+}

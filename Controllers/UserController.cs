@@ -9,7 +9,7 @@ using System.Reflection.Metadata.Ecma335;
 namespace BlogServer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class UserController : Controller
     {
         private readonly ILog _log;

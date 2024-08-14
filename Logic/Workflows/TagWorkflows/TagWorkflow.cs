@@ -1,24 +1,31 @@
 ﻿using BlogServer.CrossCutting.Logger;
 using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Manager.TagManagement;
-using System.Linq;
 
 namespace BlogServer.Logic.Workflows.TagWorkflows
 {
     public class TagWorkflow : ITagWorkflow
     {
-        private readonly ILog _log;
         private readonly ITagManager _manager;
+        private readonly ILog _log;
 
-        public TagWorkflow(ILog log, ITagManager manager)
+        public TagWorkflow(ITagManager manager, ILog log)
         {
-            _log = log;
             _manager = manager;
+            _log = log;
         }
 
-        public List<Tag> RunGetTags()
+        public IQueryable<Tag> RunGetTags()
         {
-            return new List<Tag>(_manager.GetAll());
+            try
+            {
+                return (IQueryable<Tag>)_manager.GetAll();
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorLog($"Error getting Post {ex.Message}");
+                return null;
+            }
         }
     }
 }

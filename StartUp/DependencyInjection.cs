@@ -5,6 +5,7 @@ using BlogServer.Logic.Encryption;
 using BlogServer.Logic.Manager.CommentManagement;
 using BlogServer.Logic.Manager.ConfigurationManagement;
 using BlogServer.Logic.Manager.PostManagement;
+using BlogServer.Logic.Manager.TagManagement;
 using BlogServer.Logic.Manager.UserManagement;
 using BlogServer.Logic.Workflows.CommentWorkflows;
 using BlogServer.Logic.Workflows.LoginWorkflows;
@@ -46,6 +47,7 @@ namespace BlogServer.StartUp
             
             // Tags
             _builder.Services.AddTransient<ITagWorkflow, TagWorkflow>();
+            _builder.Services.AddTransient<ITagManager, TagManager>();
 
             // Configuration
             _builder.Services.AddTransient<IConfigManager, ConfigManager>();

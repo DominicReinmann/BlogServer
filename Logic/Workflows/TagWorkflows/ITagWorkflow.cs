@@ -4,6 +4,6 @@ namespace BlogServer.Logic.Workflows.TagWorkflows
 {
     public interface ITagWorkflow
     {
-        List<Tag> RunGetTags();
+        IQueryable<Tag> RunGetTags();
     }
 }

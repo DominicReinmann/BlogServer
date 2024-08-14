@@ -4,7 +4,6 @@ namespace BlogServer.CrossCutting.Models.Domain
 {
     public class User
     {
-        [JsonPropertyName("id")]
         public int Id { get; set; }
         
         [JsonPropertyName("userName")]
