@@ -4,7 +4,6 @@ using BlogServer.CrossCutting.Models.Domain;
 using BlogServer.Logic.Workflows.LoginWorkflows;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 
 namespace BlogServer.Controllers
 {
@@ -24,7 +23,7 @@ namespace BlogServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult User(string username, string password)
+        public new IActionResult User(string username, string password)
         {
             try
             {
@@ -49,7 +48,6 @@ namespace BlogServer.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
 
         [HttpPost]
         [AllowAnonymous]

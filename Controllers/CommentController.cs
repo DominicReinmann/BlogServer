@@ -64,6 +64,10 @@ namespace BlogServer.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult DeleteComment(int id)
         {
+            if (id == null)
+            {
+                return BadRequest("id cannot be empty");
+            }
             try
             {
                 _workflow.RunDeleteComment(id);

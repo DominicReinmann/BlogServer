@@ -13,6 +13,19 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+
+
+# appsettings
+.appsettings.json
+.appsettings.*
+*.appsettings
+
+
+# some others 
+*bin
+*obj
+obj/*
+bin/*
 # Mono auto generated files
 mono_crash.*
 
@@ -399,7 +412,7 @@ FodyWeavers.xsd
 
 
 # Common IntelliJ Platform excludes
-
+.idea
 # User specific
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml

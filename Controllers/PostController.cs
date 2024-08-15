@@ -23,6 +23,10 @@ namespace BlogServer.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            if (id == null)
+            {
+                return BadRequest("id cannot be null");
+            }
             try
             {
                 var result = _workflow.RunGetPost(id);
